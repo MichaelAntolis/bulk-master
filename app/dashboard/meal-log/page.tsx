@@ -254,7 +254,7 @@ function MealSection({ title, icon, mealType, items }: {
                     <div className="font-black text-sm text-foreground">{Math.round(item.calories)} kcal</div>
                     <div className="text-[9px] text-muted font-bold tracking-widest">P:{Math.round(item.protein_g)}g C:{Math.round(item.carbs_g)}g F:{Math.round(item.fat_g)}g</div>
                   </div>
-                  <button onClick={() => deleteFood(item.id)} className="text-muted hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                  <button onClick={() => deleteFood(item.id)} className="text-muted hover:text-red-500 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100">
                     <Trash2 size={14} />
                   </button>
                 </div>
