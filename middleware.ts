@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/lib/auth";
+import { getToken } from "next-auth/jwt";
 
-export default auth(function middleware(req) {
-  const session = (req as NextRequest & { auth: { user?: { id: string } } | null }).auth;
+export async function middleware(req: NextRequest) {
+  // Edge-compatible session check using jwt getToken
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === "production" || req.url.startsWith("https://")
+  });
+  
   const { pathname } = req.nextUrl;
-  const isLoggedIn = !!session?.user;
+  const isLoggedIn = !!token;
 
   // Routes that don't require auth
   const isPublicRoute =
@@ -32,7 +38,7 @@ export default auth(function middleware(req) {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
