@@ -3,6 +3,8 @@
 
 BulkMaster is a brutalist-themed, full-stack fitness application specifically engineered for bodybuilding and bulking. Designed with a utilitarian interface, it strips away the noise and focuses purely on what matters: tracking workouts, counting macros, and visualizing real physical progression.
 
+**This is the URL of the website that is already in production:** https://bulk-master-2arl.vercel.app/
+
 ## 🚀 Key Features
 
 ### 1. **Meticulous Onboarding & Profiling**
