@@ -3,6 +3,9 @@ import { supabaseAdmin } from "@/lib/supabase";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
+// Force Node.js runtime — bcryptjs requires Node APIs (not Edge compatible)
+export const runtime = "nodejs";
+
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),

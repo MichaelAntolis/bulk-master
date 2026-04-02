@@ -1,11 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { authConfig } from "../auth.config";
 
+// Server-side Supabase client (uses service role — only in API routes/auth)
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -17,13 +16,13 @@ const loginSchema = z.object({
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  adapter: SupabaseAdapter({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  }),
+  // No adapter — using jwt strategy with our own users table
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
+  pages: {
+    signIn: "/login",
+    newUser: "/onboarding",
+  },
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -52,7 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: user.id,
           name: user.name,
           email: user.email,
-          image: user.image,
+          image: user.image ?? null,
         };
       },
     }),

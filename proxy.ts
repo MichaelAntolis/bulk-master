@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { nextUrl } = req;
   const pathname = nextUrl.pathname;
 
-  // Use raw native cookies to prevent NextAuth v5 beta Edge Runtime crashes
-  // Detects both v5 (authjs) and v4 (next-auth) cookie names in local and prod
-  const isProd = process.env.NODE_ENV === "production" || req.url.startsWith("https://");
-  
-  const v5Cookie = isProd ? "__Secure-authjs.session-token" : "authjs.session-token";
-  const v4Cookie = isProd ? "__Secure-next-auth.session-token" : "next-auth.session-token";
-  
-  const hasToken = req.cookies.has(v5Cookie) || req.cookies.has(v4Cookie);
+  // Check auth via raw cookies — compatible across all runtimes
+  // next-auth v5 (authjs) uses "authjs.session-token" in dev, "__Secure-authjs.session-token" in prod
+  const hasToken =
+    req.cookies.has("authjs.session-token") ||
+    req.cookies.has("__Secure-authjs.session-token") ||
+    req.cookies.has("next-auth.session-token") ||
+    req.cookies.has("__Secure-next-auth.session-token");
+
   const isLoggedIn = hasToken;
 
   // Routes that don't require auth
