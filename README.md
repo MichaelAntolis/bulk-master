@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BulkMaster ⚡️
+**Raw Performance & Hypertrophy Tracking Engine**
 
-## Getting Started
+BulkMaster is a brutalist-themed, full-stack fitness application specifically engineered for bodybuilding and bulking. Designed with a utilitarian interface, it strips away the noise and focuses purely on what matters: tracking workouts, counting macros, and visualizing real physical progression.
 
-First, run the development server:
+## 🚀 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. **Meticulous Onboarding & Profiling**
+- Calculates Total Daily Energy Expenditure (TDEE) using the Mifflin-St Jeor formula accurately based on user biometrics.
+- Configurable caloric surplus phases (Lean, Standard, Aggressive) to automatically define daily macro goals.
+
+### 2. **Live Workout Tracking (Training Engine)**
+- **Session Manager**: Start, pause, or finish a live training session.
+- **Dynamic Sets & Reps**: Log weights and repetitions set-by-set in real-time.
+- Automatically records and aggregates "Weekly Load Volume" to visualize progressive overload.
+
+### 3. **Nutrition & Macro Tracking**
+- **Resilient Food Search Ecosystem**: A 3-layer progressive API system ensures food queries never fail:
+  1. Open Food Facts API (Primary global database).
+  2. Edamam API (Secondary fallback).
+  3. Internal Static Fallback (Guaranteed to return results if external networks fail).
+- Automatically tracks Protein, Carbohydrates, Fats, and Total Calories progress bars dynamically against daily targets.
+
+### 4. **Progress Analytics & Media**
+- **Mass Trajectory Chart**: A dynamic SVG graph plotting the user's daily logged weight over historical timeframes (7D, 30D, 90D).
+- **Weekly Volume Bar Chart**: Shows total weight lifted over the current week to guarantee progressive hypertrophy.
+- **Visual Evolution Gallery**: Users can upload, label, and securely store progress photos.
+
+### 5. **Robust Account & Security Infrastructure**
+- Fully authenticated via **NextAuth.js v5**.
+- Avatar uploads and progress media securely bridged to **Supabase Storage**.
+- **Danger Zone**: A complete tear-down functionality allowing users to permanently wipe their profile, logs, history, and media instantly from the database.
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS (with custom CSS variables for effortless Light/Dark UI modes)
+- **Database & Storage**: Supabase (PostgreSQL + Supabase Storage)
+- **Authentication**: NextAuth.js (Auth.js) connecting securely to Supabase.
+- **Data Fetching/State**: TanStack React Query (`@tanstack/react-query`) for instant cache invalidation and UI syncing.
+- **Icons & UI Elements**: Lucide React
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Prerequisites
+- Node.js installed (v18+)
+- A new [Supabase](https://supabase.com/) project
+- Your preferred code editor
+
+### 2. Environment Variables
+Create a `.env.local` file in the root of the project and populate it with the following keys:
+
+```env
+# NextAuth / Auth.js
+AUTH_SECRET="your-super-secret-auth-key-minimum-32-chars"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Supabase Keys
+NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-role-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+
+# Edamam API (Optional - for Food Search Fallback)
+EDAMAM_APP_ID="your_edamam_app_id"
+EDAMAM_APP_KEY="your_edamam_app_key"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Supabase Setup
+You will need to run the SQL schemas to create tables for `users`, `profiles`, `workout_sessions`, `workout_sets`, `food_logs`, `weight_logs`, and `progress_photos`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Important**: You must create a new Storage Bucket called `bulkmaster-media` within your Supabase dashboard and set up the corresponding `INSERT` and `SELECT` security policies to allow avatar and progress photo uploads. *(See `tutorial_setup.md` for the exact step-by-step)*.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Installation & Running Locally
 
-## Learn More
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Open `http://localhost:3000` to launch the BulkMaster ecosystem.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Built for the 1%. Burn out the weakness.*

@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-primary: #Aee600; /* Lime / Neon yellow-green matching design */
+  --color-primary-hover: #98c900;
+  
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --bg: #f3f4f6;
+  --fg: #0a0a0b;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f9fafb;
+  --input: #e5e7eb;
+  --border: #d1d5db;
+  --muted: #6b7280;
+}
+
+.dark {
+  --bg: #141517;
+  --fg: #ffffff;
+  --surface: #0a0a0b;
+  --card: #1a1b1d;
+  --card-hover: #222325;
+  --input: #292a2c;
+  --border: #2b2c2e;
+  --muted: #8b8d91;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom Utilities for the UI */
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(174, 230, 0, 0.5);
+  }
 }
